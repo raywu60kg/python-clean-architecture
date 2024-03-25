@@ -20,14 +20,14 @@ class Account:
     def withdraw(self, amount: float, target_account_id: str) -> bool:
         if self.may_withdraw(amount) is False:
             return False
-        withdraw_activaty: Activity = Activity(
+        withdraw_activity: Activity = Activity(
             owner_account_id=self.account_id,
             source_account_id=self.account_id,
             target_account_id=target_account_id,
             timestamp=datetime.now(),
             amount=amount,
         )
-        self.__activity_window.add_activity(withdraw_activaty)
+        self.__activity_window.add_activity(withdraw_activity)
         return True
 
     def may_withdraw(self, amount: float) -> bool:

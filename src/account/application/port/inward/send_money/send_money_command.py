@@ -13,3 +13,11 @@ class SendMoneyCommand:
         if value < 0:
             raise ValueError(f"Amount has to be positive but got {value}")
         self.__amount = value
+
+    @property
+    def source_account_id(self):
+        return self.__source_account_id
+
+    @property
+    def target_account_id(self):
+        return self.__target_account_id
