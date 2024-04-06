@@ -2,10 +2,8 @@ from __future__ import annotations
 
 
 class Money:
-    __amount: int
-
     def __init__(self, value: int) -> None:
-        self.__amount = value
+        self.__amount: int = value
 
     @property
     def amount(self):

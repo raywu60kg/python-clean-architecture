@@ -1,23 +1,23 @@
-class SendMoneyCommand:
-    def __init__(self, source_account_id: str, target_account_id: str, amount: float) -> None:
-        self.__source_account_id = source_account_id
-        self.__target_account_id = target_account_id
-        self.amount = amount
+from pydantic import BaseModel, field_validator
 
-    @property
-    def amount(self):
-        return self.__amount
+from ....domain.entity.account import AccountId
+from ....domain.entity.money import Money
 
-    @amount.setter
-    def amount(self, value: float):
-        if value < 0:
-            raise ValueError(f"Amount has to be positive but got {value}")
-        self.__amount = value
 
-    @property
-    def source_account_id(self):
-        return self.__source_account_id
+class SendMoneyCommand(BaseModel):
+    source_account_id: AccountId
+    target_account_id: AccountId
+    money: Money
 
-    @property
-    def target_account_id(self):
-        return self.__target_account_id
+    @field_validator("name")
+    @classmethod
+    def money_must_be_positive(cls, v: str) -> str:
+        if " " not in v:
+            raise ValueError("must contain a space")
+        return v.title()
+
+    # @amount.setter
+    # def amount(self, value: float):
+    #     if value < 0:
+    #         raise ValueError(f"Amount has to be positive but got {value}")
+    #     self.__amount = value

@@ -1,30 +1,20 @@
 from datetime import datetime
 from typing import Optional
 
+from pydantic import BaseModel
 
-class Activity:
-    def __init__(
-        self, owner_account_id: str, source_account_id: str, target_account_id: str, timestamp: datetime, amount: float
-    ) -> None:
-        self.__id: Optional[str] = None
-        self.__owner_account_id: str = owner_account_id
-        self.__source_account_id: str = source_account_id
-        self.__target_account_id: str = target_account_id
-        self.__timestamp: datetime = timestamp
-        self.__amount: float = amount
+from .account import AccountId
+from .money import Money
 
-    @property
-    def timestamp(self) -> datetime:
-        return self.__timestamp
 
-    @property
-    def target_account_id(self) -> str:
-        return self.__target_account_id
+class ActivityId(BaseModel):
+    value: int
 
-    @property
-    def source_account_id(self) -> str:
-        return self.__source_account_id
 
-    @property
-    def amount(self) -> float:
-        return self.__amount
+class Activity(BaseModel):
+    _id: Optional[ActivityId] = None
+    owner_account_id: AccountId
+    source_account_id: AccountId
+    target_account_id: AccountId
+    timestamp: datetime
+    money: Money

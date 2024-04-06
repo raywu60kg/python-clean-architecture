@@ -1,6 +1,9 @@
 from datetime import datetime
 from typing import List, Optional
 
+from money import Money
+
+from .account import AccountId
 from .activity import Activity
 
 
@@ -12,14 +15,16 @@ class ActivityWindow:
     def activities(self):
         return self.__activities
 
-    def calculate_balance(self, account_id: str):
-        deposit_balance: float = 0.0
-        withdrawal_balance: float = 0.0
+    def calculate_balance(self, account_id: AccountId):
+        deposit_balance: Money = Money(0)
+        withdrawal_balance: Money = Money(0)
+
+        activity: Activity
         for activity in self.__activities:
             if activity.target_account_id == account_id:
-                deposit_balance += activity.amount
+                deposit_balance += activity.money
             if activity.source_account_id == account_id:
-                withdrawal_balance += activity.amount
+                withdrawal_balance += activity.money
         return deposit_balance - withdrawal_balance
 
     def get_start_time(self):

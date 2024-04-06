@@ -6,7 +6,7 @@ from ....port.inward.send_money.send_money_use_case import SendMoneyUseCase
 from ....port.outward.account_lock import AccountLock
 from ....port.outward.load_account_port import LoadAccountPort
 from ....port.outward.update_account_state_port import UpdateAccountStatePort
-from ...entity.account import Account
+from ...entity.account import Account, AccountId
 from .money_transfer_properties import MoneyTransferProperties
 
 
@@ -34,8 +34,8 @@ class SendMoneyService(SendMoneyUseCase):
             account_id=command.target_account_id, baseline_date=baseline_date
         )
 
-        source_account_id: str = source_account.account_id
-        target_account_id: str = target_account.account_id
+        source_account_id: AccountId = source_account.account_id
+        target_account_id: AccountId = target_account.account_id
 
         self.__account_lock.lock_account(source_account_id)
         if source_account.withdraw(amount=command.amount, target_account_id=target_account_id) is False:
