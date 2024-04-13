@@ -1,13 +1,13 @@
 from datetime import datetime, timedelta
 
-from account.application.port.inward.send_money.send_money_command import SendMoneyCommand
-
+from ....port.inward.send_money.send_money_command import SendMoneyCommand
 from ....port.inward.send_money.send_money_use_case import SendMoneyUseCase
 from ....port.outward.account_lock import AccountLock
 from ....port.outward.load_account_port import LoadAccountPort
 from ....port.outward.update_account_state_port import UpdateAccountStatePort
 from ...entity.account import Account, AccountId
 from .money_transfer_properties import MoneyTransferProperties
+from .threshold_exceed_exception import ThresholdExceededException
 
 
 class SendMoneyService(SendMoneyUseCase):
@@ -38,12 +38,12 @@ class SendMoneyService(SendMoneyUseCase):
         target_account_id: AccountId = target_account.account_id
 
         self.__account_lock.lock_account(source_account_id)
-        if source_account.withdraw(amount=command.amount, target_account_id=target_account_id) is False:
+        if source_account.withdraw(money=command.money, target_account_id=target_account_id) is False:
             self.__account_lock.release_account(source_account_id)
             return False
 
         self.__account_lock.lock_account(target_account_id)
-        if target_account.deposit(amount=command.amount, source_account_id=source_account_id) is False:
+        if target_account.deposit(money=command.money, source_account_id=source_account_id) is False:
             self.__account_lock.release_account(account_id=source_account_id)
             self.__account_lock.release_account(account_id=target_account_id)
             return False
@@ -53,7 +53,5 @@ class SendMoneyService(SendMoneyUseCase):
         return True
 
     def check_threshold(self, command: SendMoneyCommand):
-        if command.amount > self.__money_transfer_properties.maximum_transfer_threshold:
-            raise ValueError(
-                f"Amount {command.amount} exceed threshold {self.__money_transfer_properties.maximum_transfer_threshold}"
-            )
+        if command.money.is_greater_than(self.__money_transfer_properties.maximum_transfer_threshold):
+            raise ThresholdExceededException(self.__money_transfer_properties.maximum_transfer_threshold, command.money)
