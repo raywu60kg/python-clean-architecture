@@ -12,7 +12,7 @@ class ActivityId(BaseModel):
 
 
 class Activity(BaseModel):
-    _id: Optional[ActivityId] = None
+    activity_id: Optional[ActivityId] = None
     owner_account_id: AccountId
     source_account_id: AccountId
     target_account_id: AccountId

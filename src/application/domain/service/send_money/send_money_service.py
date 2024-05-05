@@ -23,7 +23,7 @@ class SendMoneyService(SendMoneyUseCase):
         self.__update_account_state_port: UpdateAccountStatePort = update_account_state_port
         self.__money_transfer_properties: MoneyTransferProperties = money_transfer_properties
 
-    def send_money(self, command: SendMoneyCommand):
+    def send_money(self, command: SendMoneyCommand) -> bool:
         baseline_date: datetime = datetime.now() - timedelta(days=10)
 
         source_account: Account = self.__load_account_port.load_account(

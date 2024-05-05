@@ -1,6 +1,9 @@
 help:  
 	@sed -ne '/@sed/!s/## //p' $(MAKEFILE_LIST)
 
+mypy: ## type check
+	mypy --check-untyped-defs src
+
 test-pca-postgres-up: ## run test postgres
 	docker run \
 	--name test-pca-postgres \

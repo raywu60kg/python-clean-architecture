@@ -5,9 +5,11 @@ Revises:
 Create Date: 2024-04-06 18:09:10.280214
 
 """
+
 from typing import Sequence, Union
 
 import sqlalchemy as sa
+from sqlalchemy import DateTime, Integer
 
 from alembic import op
 
@@ -21,17 +23,17 @@ depends_on: Union[str, Sequence[str], None] = None
 def upgrade() -> None:
     op.create_table(
         "account",
-        sa.Column("id", sa.Integer, primary_key=True),
+        sa.Column("id", Integer, primary_key=True),
     )
 
     op.create_table(
         "activity",
-        sa.Column("id", sa.Integer, primary_key=True),
-        sa.Column("timestamp", sa.timestamp),
-        sa.Column("owner_account_id", sa.Integer, nullable=False),
-        sa.Column("source_account_id", sa.Integer, nullable=False),
-        sa.Column("target_account_id", sa.Integer, nullable=False),
-        sa.Column("amount", sa.Integer, nullable=False),
+        sa.Column("id", Integer, primary_key=True),
+        sa.Column("timestamp", DateTime(timezone=False)),
+        sa.Column("owner_account_id", Integer, nullable=False),
+        sa.Column("source_account_id", Integer, nullable=False),
+        sa.Column("target_account_id", Integer, nullable=False),
+        sa.Column("amount", Integer, nullable=False),
     )
 
     op.create_foreign_key(
