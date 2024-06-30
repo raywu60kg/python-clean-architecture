@@ -9,13 +9,13 @@ from .activity import Activity
 
 class ActivityWindow:
     def __init__(self, activities: List[Activity]) -> None:
-        self.__activities: List[Activity] = activities
+        self.__activities = activities
 
     @property
-    def activities(self):
+    def activities(self) -> List[Activity]:
         return self.__activities
 
-    def calculate_balance(self, account_id: AccountId):
+    def calculate_balance(self, account_id: Optional[AccountId]) -> Money:
         deposit_balance: Money = Money(0)
         withdrawal_balance: Money = Money(0)
 
@@ -27,27 +27,11 @@ class ActivityWindow:
                 withdrawal_balance += activity.money
         return deposit_balance - withdrawal_balance
 
-    def get_start_time(self):
-        first_activity_time: Optional[datetime] = None
-        activity: Activity
-        for activity in self.__activities:
-            if first_activity_time is None:
-                first_activity_time = activity.timestamp
-            else:
-                if activity.timestamp < first_activity_time:
-                    first_activity_time = activity.timestamp
-        return first_activity_time
+    def get_start_time(self) -> datetime:
+        return min(self.__activities, key=lambda x: x.timestamp).timestamp
 
     def get_end_time(self):
-        latest_activity_time: Optional[datetime] = None
-        activity: Activity
-        for activity in self.__activities:
-            if latest_activity_time is None:
-                latest_activity_time = activity.timestamp
-            else:
-                if activity.timestamp > latest_activity_time:
-                    latest_activity_time = activity.timestamp
-        return latest_activity_time
+        return max(self.__activities, key=lambda x: x.timestamp).timestamp
 
     def add_activity(self, activity: Activity) -> None:
         self.activities.append(activity)

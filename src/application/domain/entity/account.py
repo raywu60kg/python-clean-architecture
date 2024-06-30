@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -12,10 +13,12 @@ class AccountId(BaseModel):
 
 
 class Account:
-    def __init__(self, account_id: AccountId, baseline_balance: Money, activity_window: ActivityWindow) -> None:
-        self.__account_id: AccountId = account_id
-        self.__baseline_balance: Money = baseline_balance
-        self.__activity_window: ActivityWindow = activity_window
+    def __init__(
+        self, account_id: Optional[AccountId], baseline_balance: Money, activity_window: ActivityWindow
+    ) -> None:
+        self.__account_id = account_id
+        self.__baseline_balance = baseline_balance
+        self.__activity_window = activity_window
 
     @property
     def account_id(self):

@@ -13,8 +13,8 @@ class ActivityId(BaseModel):
 
 class Activity(BaseModel):
     activity_id: Optional[ActivityId] = None
-    owner_account_id: AccountId
-    source_account_id: AccountId
-    target_account_id: AccountId
+    owner_account_id: Optional[AccountId]
+    source_account_id: Optional[AccountId]
+    target_account_id: Optional[AccountId]
     timestamp: datetime
     money: Money
