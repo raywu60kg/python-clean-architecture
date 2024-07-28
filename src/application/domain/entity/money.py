@@ -6,7 +6,7 @@ class Money:
         self.__amount: int = value
 
     @property
-    def amount(self):
+    def amount(self) -> int:
         return self.__amount
 
     def is_positive_or_zero(self) -> bool:

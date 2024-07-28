@@ -1,25 +1,22 @@
 from datetime import datetime
-from typing import List, Optional
 
-from money import Money
-
-from .account import AccountId
-from .activity import Activity
+from src.application.domain.entity.account import AccountId
+from src.application.domain.entity.activity import Activity
+from src.application.domain.entity.money import Money
 
 
 class ActivityWindow:
-    def __init__(self, activities: List[Activity]) -> None:
+    def __init__(self, activities: list[Activity]) -> None:
         self.__activities = activities
 
     @property
-    def activities(self) -> List[Activity]:
+    def activities(self) -> list[Activity]:
         return self.__activities
 
-    def calculate_balance(self, account_id: Optional[AccountId]) -> Money:
+    def calculate_balance(self, account_id: AccountId) -> Money:
         deposit_balance: Money = Money(0)
         withdrawal_balance: Money = Money(0)
 
-        activity: Activity
         for activity in self.__activities:
             if activity.target_account_id == account_id:
                 deposit_balance += activity.money
@@ -30,7 +27,7 @@ class ActivityWindow:
     def get_start_time(self) -> datetime:
         return min(self.__activities, key=lambda x: x.timestamp).timestamp
 
-    def get_end_time(self):
+    def get_end_time(self) -> datetime:
         return max(self.__activities, key=lambda x: x.timestamp).timestamp
 
     def add_activity(self, activity: Activity) -> None:
