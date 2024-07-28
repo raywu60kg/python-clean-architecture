@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from datetime import datetime
 
-from ...domain.entity.account import Account, AccountId
+from src.application.domain.entity.account import Account, AccountId
 
 
 class LoadAccountPort(ABC):

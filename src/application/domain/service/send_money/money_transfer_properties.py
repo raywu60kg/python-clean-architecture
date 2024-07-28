@@ -1,7 +1,9 @@
-from pydantic import BaseModel
-
-from ...entity.money import Money
+from src.application.domain.entity.money import Money
 
 
-class MoneyTransferProperties(BaseModel):
-    maximum_transfer_threshold: Money = Money(1_000_000)
+class MoneyTransferProperties:
+    __maximum_transfer_threshold: Money = Money(1_000_000)
+
+    @property
+    def maximum_transfer_threshold(self) -> Money:
+        return self.__maximum_transfer_threshold

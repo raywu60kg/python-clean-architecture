@@ -1,13 +1,16 @@
 from datetime import datetime, timedelta
 
-from ....port.inward.send_money.send_money_command import SendMoneyCommand
-from ....port.inward.send_money.send_money_use_case import SendMoneyUseCase
-from ....port.outward.account_lock import AccountLock
-from ....port.outward.load_account_port import LoadAccountPort
-from ....port.outward.update_account_state_port import UpdateAccountStatePort
-from ...entity.account import Account, AccountId
-from .money_transfer_properties import MoneyTransferProperties
-from .threshold_exceed_exception import ThresholdExceededException
+from src.application.domain.entity.account import Account
+from src.application.domain.service.send_money.money_transfer_properties import MoneyTransferProperties
+from src.application.domain.service.send_money.send_money_account_not_found_exception import (
+    SendMoneyAccountNotFoundException,
+)
+from src.application.domain.service.send_money.threshold_exceed_exception import ThresholdExceededException
+from src.application.port.inward.send_money.send_money_command import SendMoneyCommand
+from src.application.port.inward.send_money.send_money_use_case import SendMoneyUseCase
+from src.application.port.outward.account_lock import AccountLock
+from src.application.port.outward.load_account_port import LoadAccountPort
+from src.application.port.outward.update_account_state_port import UpdateAccountStatePort
 
 
 class SendMoneyService(SendMoneyUseCase):
@@ -33,9 +36,10 @@ class SendMoneyService(SendMoneyUseCase):
         target_account: Account = self.__load_account_port.load_account(
             account_id=command.target_account_id, baseline_date=baseline_date
         )
-
-        source_account_id: AccountId = source_account.account_id
-        target_account_id: AccountId = target_account.account_id
+        source_account_id = source_account.account_id
+        target_account_id = target_account.account_id
+        if source_account_id is None or target_account_id is None:
+            raise SendMoneyAccountNotFoundException(from_account_id=source_account_id, to_account_id=target_account_id)
 
         self.__account_lock.lock_account(source_account_id)
         if source_account.withdraw(money=command.money, target_account_id=target_account_id) is False:
@@ -52,6 +56,6 @@ class SendMoneyService(SendMoneyUseCase):
         self.__update_account_state_port.update_activities(target_account)
         return True
 
-    def check_threshold(self, command: SendMoneyCommand):
+    def check_threshold(self, command: SendMoneyCommand) -> None:
         if command.money.is_greater_than(self.__money_transfer_properties.maximum_transfer_threshold):
             raise ThresholdExceededException(self.__money_transfer_properties.maximum_transfer_threshold, command.money)

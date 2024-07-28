@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from .send_money_command import SendMoneyCommand
+from src.application.port.inward.send_money.send_money_command import SendMoneyCommand
 
 
 class SendMoneyUseCase(ABC):

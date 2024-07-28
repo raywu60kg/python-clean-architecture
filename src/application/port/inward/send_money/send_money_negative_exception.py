@@ -1,4 +1,4 @@
-from ....domain.entity.money import Money
+from src.application.domain.entity.money import Money
 
 
 class SendMoneyNegativeException(Exception):

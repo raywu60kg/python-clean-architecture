@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from ...domain.entity.account import Account
+from src.application.domain.entity.account import Account
 
 
 class UpdateAccountStatePort(ABC):

@@ -1,4 +1,4 @@
-from ...entity.money import Money
+from src.application.domain.entity.money import Money
 
 
 class ThresholdExceededException(Exception):
