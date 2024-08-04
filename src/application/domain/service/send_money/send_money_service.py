@@ -26,14 +26,14 @@ class SendMoneyService(SendMoneyUseCase):
         self.__update_account_state_port: UpdateAccountStatePort = update_account_state_port
         self.__money_transfer_properties: MoneyTransferProperties = money_transfer_properties
 
-    def send_money(self, command: SendMoneyCommand) -> bool:
+    async def send_money(self, command: SendMoneyCommand) -> bool:
         baseline_date: datetime = datetime.now() - timedelta(days=10)
 
-        source_account: Account = self.__load_account_port.load_account(
+        source_account: Account = await self.__load_account_port.load_account(
             account_id=command.source_account_id, baseline_date=baseline_date
         )
 
-        target_account: Account = self.__load_account_port.load_account(
+        target_account: Account = await self.__load_account_port.load_account(
             account_id=command.target_account_id, baseline_date=baseline_date
         )
         source_account_id = source_account.account_id
@@ -52,8 +52,8 @@ class SendMoneyService(SendMoneyUseCase):
             self.__account_lock.release_account(account_id=target_account_id)
             return False
 
-        self.__update_account_state_port.update_activities(source_account)
-        self.__update_account_state_port.update_activities(target_account)
+        await self.__update_account_state_port.update_activities(source_account)
+        await self.__update_account_state_port.update_activities(target_account)
         return True
 
     def check_threshold(self, command: SendMoneyCommand) -> None:

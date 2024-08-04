@@ -10,5 +10,6 @@ class GetAccountBalanceService(GetAccountBalanceUseCase):
     def __init__(self, load_account_port: LoadAccountPort) -> None:
         self.__load_account_port = load_account_port
 
-    def get_account_balance(self, query: GetAccountBalanceQuery) -> Money:
-        return self.__load_account_port.load_account(query.account_id, datetime.now()).calculate_balance()
+    async def get_account_balance(self, query: GetAccountBalanceQuery) -> Money:
+        account = await self.__load_account_port.load_account(query.account_id, datetime.now())
+        return account.calculate_balance()

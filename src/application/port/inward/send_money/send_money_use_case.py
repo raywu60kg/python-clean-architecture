@@ -5,5 +5,5 @@ from src.application.port.inward.send_money.send_money_command import SendMoneyC
 
 class SendMoneyUseCase(ABC):
     @abstractmethod
-    def send_money(self, command: SendMoneyCommand) -> bool:
+    async def send_money(self, command: SendMoneyCommand) -> bool:
         pass

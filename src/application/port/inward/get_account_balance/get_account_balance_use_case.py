@@ -6,5 +6,5 @@ from src.application.port.inward.get_account_balance.get_account_balance_query i
 
 class GetAccountBalanceUseCase(ABC):
     @abstractmethod
-    def get_account_balance(self, query: GetAccountBalanceQuery) -> Money:
+    async def get_account_balance(self, query: GetAccountBalanceQuery) -> Money:
         pass
