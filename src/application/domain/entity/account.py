@@ -25,6 +25,10 @@ class Account:
     def account_id(self) -> AccountId | None:
         return self.__account_id
 
+    @property
+    def activity_window(self) -> ActivityWindow:
+        return self.__activity_window
+
     def calculate_balance(self) -> Money:
         if self.account_id is None:
             raise AccountNotPersistedException()

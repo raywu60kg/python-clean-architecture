@@ -51,3 +51,8 @@ class ActivityRepository:
                 return None
 
             return withdrawal_balance
+
+    async def save(self, activity: ActivitySqlalchemyBase) -> None:
+        async with self.__session_factory() as session:
+            session.add(activity)
+            await session.commit()

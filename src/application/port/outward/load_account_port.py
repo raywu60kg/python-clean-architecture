@@ -6,5 +6,5 @@ from src.application.domain.entity.account import Account, AccountId
 
 class LoadAccountPort(ABC):
     @abstractmethod
-    def load_account(self, account_id: AccountId, baseline_date: datetime) -> Account:
+    async def load_account(self, account_id: AccountId, baseline_date: datetime) -> Account:
         pass
