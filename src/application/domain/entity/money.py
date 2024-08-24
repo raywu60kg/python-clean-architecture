@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Any
+
 
 class Money:
     def __init__(self, value: int) -> None:
@@ -32,6 +34,11 @@ class Money:
 
     def __neg__(self) -> Money:
         return Money(-self.__amount)
+
+    def __eq__(self, other: Any) -> bool:
+        if isinstance(other, self.__class__):
+            return self.amount == other.amount
+        return False
 
     @classmethod
     def create(cls, value: int) -> Money:
