@@ -1,6 +1,5 @@
 from datetime import datetime
 
-from src.application.domain.entity.account import AccountId
 from src.application.domain.entity.money import Money
 
 
@@ -16,17 +15,17 @@ class ActivityId:
 class Activity:
     def __init__(
         self,
-        owner_account_id: AccountId,
-        source_account_id: AccountId,
-        target_account_id: AccountId,
+        owner_account_id: "AccountId",  # type: ignore  # noqa: F821
+        source_account_id: "AccountId",  # type: ignore  # noqa: F821
+        target_account_id: "AccountId",  # type: ignore  # noqa: F821
         timestamp: datetime,
         money: Money,
         activity_id: ActivityId | None = None,
     ) -> None:
         self.__activity_id = activity_id
-        self.__owner_account_id = owner_account_id
-        self.__source_account_id = source_account_id
-        self.__target_account_id = target_account_id
+        self.__owner_account_id = owner_account_id  # type: ignore
+        self.__source_account_id = source_account_id  # type: ignore
+        self.__target_account_id = target_account_id  # type: ignore
         self.__timestamp = timestamp
         self.__money = money
 
@@ -35,16 +34,16 @@ class Activity:
         return self.__activity_id
 
     @property
-    def owner_account_id(self) -> AccountId:
-        return self.__owner_account_id
+    def owner_account_id(self) -> "AccountId":  # type: ignore # noqa: F821
+        return self.__owner_account_id  # type: ignore
 
     @property
-    def source_account_id(self) -> AccountId:
-        return self.__source_account_id
+    def source_account_id(self) -> "AccountId":  # type: ignore # noqa: F821
+        return self.__source_account_id  # type: ignore
 
     @property
-    def target_account_id(self) -> AccountId:
-        return self.__target_account_id
+    def target_account_id(self) -> "AccountId":  # type: ignore # noqa: F821
+        return self.__target_account_id  # type: ignore
 
     @property
     def timestamp(self) -> datetime:

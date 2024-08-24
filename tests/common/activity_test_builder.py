@@ -37,7 +37,7 @@ class ActivityTestBuilder:
         return self
 
     def with_money(self, money: Money) -> ActivityTestBuilder:
-        self.money = money
+        self.__money = money
         return self
 
     def build(self) -> Activity:

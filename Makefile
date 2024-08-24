@@ -1,8 +1,10 @@
 help:  
 	@sed -ne '/@sed/!s/## //p' $(MAKEFILE_LIST)
+ruff: ## ruff check
+	ruff check src/ tests/ && ruff format src/ tests/ 
 
 mypy: ## type check
-	mypy --check-untyped-defs src
+	mypy --check-untyped-defs src/ tests/
 
 test-pca-postgres-up: ## run test postgres
 	docker run \

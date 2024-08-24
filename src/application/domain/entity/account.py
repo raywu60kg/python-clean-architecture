@@ -32,7 +32,7 @@ class Account:
     def calculate_balance(self) -> Money:
         if self.account_id is None:
             raise AccountNotPersistedException()
-        return self.__baseline_balance + self.__activity_window.calculate_balance(self.account_id)
+        return self.__baseline_balance + self.__activity_window.calculate_balance(self.account_id)  # type: ignore
 
     def withdraw(self, money: Money, target_account_id: AccountId) -> bool:
         if self.account_id is None:
