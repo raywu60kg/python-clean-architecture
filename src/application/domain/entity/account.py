@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Any
 
 from src.application.domain.entity.account_not_persisted_exception import AccountNotPersistedException
 from src.application.domain.entity.activity import Activity
@@ -9,6 +10,14 @@ from src.application.domain.entity.money import Money
 class AccountId:
     def __init__(self, value: int) -> None:
         self.__value = value
+
+    def __hash__(self) -> int:
+        return hash(self.__value)
+
+    def __eq__(self, other: Any) -> bool:
+        if isinstance(other, AccountId):
+            return self.__value == other.value
+        return False
 
     @property
     def value(self) -> int:

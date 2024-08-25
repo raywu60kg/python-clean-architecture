@@ -32,10 +32,10 @@ class SendMoneyService(SendMoneyUseCase):
         source_account: Account = await self.__load_account_port.load_account(
             account_id=command.source_account_id, baseline_date=baseline_date
         )
-
         target_account: Account = await self.__load_account_port.load_account(
             account_id=command.target_account_id, baseline_date=baseline_date
         )
+
         source_account_id = source_account.account_id
         target_account_id = target_account.account_id
         if source_account_id is None or target_account_id is None:
@@ -48,12 +48,14 @@ class SendMoneyService(SendMoneyUseCase):
 
         self.__account_lock.lock_account(target_account_id)
         if target_account.deposit(money=command.money, source_account_id=source_account_id) is False:
-            self.__account_lock.release_account(account_id=source_account_id)
-            self.__account_lock.release_account(account_id=target_account_id)
+            self.__account_lock.release_account(source_account_id)
+            self.__account_lock.release_account(target_account_id)
             return False
 
         await self.__update_account_state_port.update_activities(source_account)
         await self.__update_account_state_port.update_activities(target_account)
+        self.__account_lock.release_account(source_account_id)
+        self.__account_lock.release_account(target_account_id)
         return True
 
     def check_threshold(self, command: SendMoneyCommand) -> None:

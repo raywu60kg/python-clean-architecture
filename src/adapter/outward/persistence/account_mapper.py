@@ -42,8 +42,8 @@ class AccountMapper:
         return ActivitySqlalchemyBase(
             id=activity.activity_id.value if activity.activity_id is not None else None,
             timestamp=activity.timestamp,
-            owner_account_id=activity.owner_account_id.value,
-            source_account_id=activity.source_account_id.value,
-            target_account_id=activity.target_account_id.value,
+            owner_account_id=activity.owner_account_id.value,  # type: ignore
+            source_account_id=activity.source_account_id.value,  # type: ignore
+            target_account_id=activity.target_account_id.value,  # type: ignore
             amount=activity.money.amount,
         )

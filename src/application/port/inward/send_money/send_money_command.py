@@ -15,9 +15,10 @@ class SendMoneyCommand:
 
     @money.setter
     def money(self, money: Money) -> None:
-        if money.is_greater_than(Money(0)):
+        if money.is_greater_than_or_equal_to(Money(0)):
+            self.__money = money
+        else:
             raise SendMoneyNegativeException(money=money)
-        self.__money = money
 
     @property
     def source_account_id(self) -> AccountId:
