@@ -1,11 +1,11 @@
 from typing import List
 
-from ....application.domain.entity.account import Account, AccountId
-from ....application.domain.entity.activity import Activity, ActivityId
-from ....application.domain.entity.activity_window import ActivityWindow
-from ....application.domain.entity.money import Money
-from .account_sqlalchemy_base import AccountSqlalchemyBase
-from .activity_sqlalchemy_base import ActivitySqlalchemyBase
+from src.adapter.outward.persistence.account_sqlalchemy_base import AccountSqlalchemyBase
+from src.adapter.outward.persistence.activity_sqlalchemy_base import ActivitySqlalchemyBase
+from src.application.domain.entity.account import Account, AccountId
+from src.application.domain.entity.activity import Activity, ActivityId
+from src.application.domain.entity.activity_window import ActivityWindow
+from src.application.domain.entity.money import Money
 
 
 class AccountMapper:

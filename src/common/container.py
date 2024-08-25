@@ -1,3 +1,5 @@
+import os
+
 from dependency_injector import containers, providers
 
 from src.adapter.outward.persistence.account_lock import AccountPersistenceLocker
@@ -14,14 +16,11 @@ from src.application.domain.service.send_money.send_money_service import SendMon
 class Container(containers.DeclarativeContainer):
     wiring_config = containers.WiringConfiguration(
         modules=[
-            "src/adapter/inward/web/get_account_balance/get_account_balance_controller.py",
-            "src/adapter/inward/web/send_money/send_money_controller.py",
+            "src/adapter/inward/web/router",
         ]
     )
-
-    config = providers.Configuration(yaml_files=["config.yml"])
-
-    db = providers.Singleton(Database, db_url=config.db.uri)
+    db_uri = os.getenv("DB_URI", "postgresql+asyncpg://pca:pca@localhost:5432/pca")
+    db = providers.Singleton(Database, db_uri=db_uri)
 
     account_repository = providers.Factory(
         AccountRepository,

@@ -3,11 +3,13 @@ from contextlib import asynccontextmanager
 from typing import AsyncGenerator
 
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
-from sqlalchemy.orm import declarative_base
+from sqlalchemy.orm import DeclarativeBase
 
 logger = logging.getLogger(__name__)
 
-Base = declarative_base()
+
+class Base(DeclarativeBase):
+    pass
 
 
 class Database:
