@@ -1,18 +1,11 @@
 from fastapi import FastAPI
 
-from . import endpoints
-from .containers import Container
+from src.adapter.inward.web.router import router
 
 
 def create_app() -> FastAPI:
-    container = Container()
-
-    db = container.db()
-    db.create_database()
-
     app = FastAPI()
-    app.container = container
-    app.include_router(endpoints.router)
+    app.include_router(router)
     return app
 
 
