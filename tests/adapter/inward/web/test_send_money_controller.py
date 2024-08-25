@@ -1,5 +1,5 @@
 from unittest import IsolatedAsyncioTestCase
-from unittest.mock import Mock
+from unittest.mock import AsyncMock
 
 from httpx import AsyncClient
 
@@ -12,8 +12,9 @@ from src.main import app
 
 class TestSendMoneyController(IsolatedAsyncioTestCase):
     async def test_send_money(self) -> None:
-        send_money_use_case_mock = Mock(spec=SendMoneyUseCase)
+        send_money_use_case_mock = AsyncMock(spec=SendMoneyUseCase)
         send_money_use_case_mock.send_money.return_value = True
+
         with app.state.container.send_money_service.override(send_money_use_case_mock):
             async with AsyncClient(app=app, base_url="http://testserver") as client:
                 response = await client.post(f"/accounts/send/{41}/{42}/{500}")

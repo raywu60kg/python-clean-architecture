@@ -9,7 +9,8 @@ from src.common.container import Container
 async def create_app() -> FastAPI:
     container = Container
     db = container.db()
-    await db.create_database()
+    if container.running_env != "test":
+        await db.create_database()
     app = FastAPI()
     app.include_router(router)
     app.state.container = container

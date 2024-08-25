@@ -14,6 +14,7 @@ from src.application.domain.service.send_money.send_money_service import SendMon
 
 
 class Container(containers.DeclarativeContainer):
+    running_env = os.getenv("RUNNING_ENV", "test")
     wiring_config = containers.WiringConfiguration(
         modules=[
             "src/adapter/inward/web/router",
