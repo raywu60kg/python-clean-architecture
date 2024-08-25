@@ -12,7 +12,7 @@ from src.application.port.outward.load_account_port import LoadAccountPort
 from src.application.port.outward.update_account_state_port import UpdateAccountStatePort
 
 
-class SendMoneyServiceTest(IsolatedAsyncioTestCase):
+class TestSendMoneyService(IsolatedAsyncioTestCase):
     load_account_port = Mock(spec=LoadAccountPort)
     account_lock = Mock(spec=AccountLock)
     update_account_state_port = Mock(spec=UpdateAccountStatePort)
