@@ -17,7 +17,7 @@ class Container(containers.DeclarativeContainer):
     running_env = os.getenv("RUNNING_ENV", "test")
     wiring_config = containers.WiringConfiguration(
         modules=[
-            "src/adapter/inward/web/router",
+            "src.adapter.inward.web.router",
         ]
     )
     db_uri = os.getenv("DB_URI", "postgresql+asyncpg://pca:pca@localhost:5432/pca")

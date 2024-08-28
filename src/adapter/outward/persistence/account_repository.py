@@ -3,8 +3,8 @@ from typing import Callable
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from .account_not_found_exception import AccountNotFoundException
-from .account_sqlalchemy_base import AccountSqlalchemyBase
+from src.adapter.outward.persistence.account_not_found_exception import AccountNotFoundException
+from src.adapter.outward.persistence.account_sqlalchemy_base import AccountSqlalchemyBase
 
 
 class AccountRepository:
