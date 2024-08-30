@@ -26,11 +26,11 @@ async def get_account_balance(
 @router.post("/accounts/send/{source_account_id}/{target_account_id}/{amount}")
 @inject
 async def send_money(
-    send_money_use_case: SendMoneyUseCase = Depends(Provide[Container.send_money_service]),
     source_account_id: int = Path(..., description="The ID of the source account"),
     target_account_id: int = Path(..., description="The ID of the target account"),
     amount: int = Path(..., description="The amount of money to send"),
-) -> None:
+    send_money_use_case: SendMoneyUseCase = Depends(Provide[Container.send_money_service]),
+) -> bool:
     command = SendMoneyCommand(
         source_account_id=AccountId(value=source_account_id),
         target_account_id=AccountId(value=target_account_id),
@@ -38,4 +38,4 @@ async def send_money(
     )
 
     await send_money_use_case.send_money(command=command)
-    return
+    return True

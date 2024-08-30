@@ -1,4 +1,5 @@
-import asyncio
+from contextlib import asynccontextmanager
+from typing import AsyncGenerator
 
 from fastapi import FastAPI
 
@@ -6,15 +7,14 @@ from src.adapter.inward.web.router import router
 from src.common.container import Container
 
 
-async def create_app() -> FastAPI:
-    container = Container
-    db = container.db()
-    if container.running_env != "test":
-        await db.create_database()
-    app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
+    container = Container()
+    database = container.database()
+    await database.create_database()
     app.state.container = container
-    app.include_router(router)
-    return app
+    yield
 
 
-app = asyncio.run(create_app())
+app = FastAPI(lifespan=lifespan)
+app.include_router(router)

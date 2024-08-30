@@ -1,3 +1,5 @@
+from typing import Any
+
 from src.application.domain.entity.account import AccountId
 from src.application.domain.entity.money import Money
 from src.application.port.inward.send_money.send_money_negative_exception import SendMoneyNegativeException
@@ -27,3 +29,12 @@ class SendMoneyCommand:
     @property
     def target_account_id(self) -> AccountId:
         return self.__target_account_id
+
+    def __eq__(self, other: Any) -> bool:
+        if isinstance(other, self.__class__):
+            return (
+                self.money == other.money
+                and self.source_account_id == other.source_account_id
+                and self.target_account_id == other.target_account_id
+            )
+        return False
