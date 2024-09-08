@@ -15,8 +15,8 @@ router = APIRouter()
 @router.get("/accounts/balance/{owner_account_id}/")
 @inject
 async def get_account_balance(
-    get_account_balance_use_case: GetAccountBalanceUseCase = Depends(Provide[Container.get_account_balance_service]),
     owner_account_id: int = Path(..., description="The ID of the owner account"),
+    get_account_balance_use_case: GetAccountBalanceUseCase = Depends(Provide[Container.get_account_balance_service]),
 ) -> int:
     query = GetAccountBalanceQuery(account_id=AccountId(value=owner_account_id))
     balance = await get_account_balance_use_case.get_account_balance(query=query)

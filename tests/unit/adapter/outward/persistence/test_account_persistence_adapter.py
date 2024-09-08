@@ -17,14 +17,6 @@ from tests.common.activity_test_builder import ActivityTestBuilder
 
 class TestAccountPersistenceAdapter(IsolatedAsyncioTestCase):
     async def test_loads_account(self) -> None:
-        """
-        insert into activity (id, timestamp, owner_account_id, source_account_id, target_account_id, amount)
-        values (6, '2019-08-09 09:00:00.0', 2, 1, 2, 1000);
-
-        insert into activity (id, timestamp, owner_account_id, source_account_id, target_account_id, amount)
-        values (8, '2019-08-09 10:00:00.0', 2, 2, 1, 1000);
-        """
-
         mock_account_repository = AsyncMock(spec=AccountRepository)
         mock_account_repository.get_by_id.return_value = AccountSqlalchemyBase(id=1)
         mock_activity_repository = AsyncMock(spec=ActivityRepository)

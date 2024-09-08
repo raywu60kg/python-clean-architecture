@@ -13,7 +13,8 @@ class AccountRepository:
 
     async def get_by_id(self, account_id: int) -> AccountSqlalchemyBase:
         async with self.__session_factory() as session:
-            res = await session.execute(select(AccountSqlalchemyBase).filter(AccountSqlalchemyBase.id == account_id))
+            res = await session.execute(select(AccountSqlalchemyBase).where(AccountSqlalchemyBase.id == account_id))
+
             account_sqlalchemy_base = res.scalar()
             if not account_sqlalchemy_base:
                 raise AccountNotFoundException(account_id=account_id)

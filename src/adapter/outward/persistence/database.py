@@ -25,6 +25,10 @@ class Database:
         async with self.__engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
 
+    async def drop_database(self) -> None:
+        async with self.__engine.begin() as conn:
+            await conn.run_sync(Base.metadata.drop_all)
+
     @asynccontextmanager
     async def session(self) -> AsyncGenerator[AsyncSession, None]:
         session: AsyncSession = self.__session_factory()

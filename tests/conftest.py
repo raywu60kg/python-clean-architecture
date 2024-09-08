@@ -7,9 +7,8 @@ from src.common.container import Container
 from src.main import app
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def client() -> Generator[TestClient, None, None]:
     container = Container()
     app.state.container = container
-
     yield TestClient(app)
