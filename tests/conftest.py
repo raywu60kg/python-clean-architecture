@@ -11,4 +11,5 @@ from src.main import app
 def client() -> Generator[TestClient, None, None]:
     container = Container()
     app.state.container = container
-    yield TestClient(app)
+    with TestClient(app) as test_client:
+        yield test_client
