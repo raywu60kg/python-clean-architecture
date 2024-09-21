@@ -1,5 +1,6 @@
 help:  
 	@sed -ne '/@sed/!s/## //p' $(MAKEFILE_LIST)
+
 server-dev: ## run dev server
 	fastapi dev src/main.py
 ruff: ## ruff check
