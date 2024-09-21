@@ -1,0 +1,31 @@
+services:
+  server:
+    build:
+      dockerfile: ./docker/Dockerfile
+      context: .
+      target: production
+    ports:
+      - "80:80"
+    environment:
+      - DB_URI=postgresql+asyncpg://pca:pca@db:5432/pca
+    depends_on:
+      - db
+  db:
+    image: postgres:16.3
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=pca
+      - POSTGRES_PASSWORD=pca
+      - POSTGRES_DB=pca
+  alembic-script:
+    build:
+      dockerfile: ./docker/Dockerfile
+      context: .
+      target: development
+    command: bash -c "alembic upgrade head" && exit
+    environment:
+      - MIGRATION_DB_URI=postgresql+psycopg2://pca:pca@db:5432/pca
+    depends_on:
+      - db
+
