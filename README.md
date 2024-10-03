@@ -1,5 +1,5 @@
 # Python Clean Architecture
-![image](static/mini-dsp.jpg)
+![image](static/hexagonal_architecture.png)
 This repository is a Python implementation of the [buckpal](https://github.com/thombergs/buckpal) project, which was originally written in Java. The goal is to demonstrate how to achieve Hexagonal Architecture using modern Python packages and practices.
 
 ## About Buckpal
